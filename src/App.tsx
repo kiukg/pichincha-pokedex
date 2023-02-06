@@ -1,6 +1,4 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PokemonList from './Components/PokemonList/PokemonList';
 import SearchPokemon from './Components/SearchPokemon/SearchPokemon';
 
 function App() {
@@ -8,12 +6,7 @@ function App() {
     <div className="App">
      <SearchPokemon></SearchPokemon>
 
-      <div>
-        <div>
-          <div>Nombre</div><div>Imagen</div><div>Ataque</div><div>Defensa</div><div>Acciones</div>
-          <div>Ivysaur</div><div>IMG</div><div>65</div><div>38</div><div><input type="button" value="Edit" /><input type="button" value="Delete" /></div>
-        </div>
-      </div>
+     <PokemonList></PokemonList>
 
       <div>
         <span>Nuevo Pokemon</span>

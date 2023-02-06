@@ -6,7 +6,7 @@ export const SeachGrid = styled.div`
     align-items: end;
     justify-content: space-between;
 `
-export const AddPokemon = styled.input`
+export const SearchIcon = styled.input`
     padding: 7px 8px;
     border: 1px solid transparent;
     background: transparent;
@@ -31,4 +31,13 @@ export const SubmitSearch = styled.input`
 
 export const SearchGroup = styled.form`
     display: grid;
+`
+
+export const AddPokemon = styled.input`
+    display: grid;
+    padding: 7px 8px;
+    border-radius: 5px;
+    background-color: #6161e9;
+    color: #fff;
+    border: 1px solid transparent;
 `

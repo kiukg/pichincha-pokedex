@@ -1,4 +1,4 @@
-import { AddPokemon, SeachGrid, SearchGroup, SearchInput, SubmitSearch } from "./SeachPokemon.styled";
+import { SearchIcon, SeachGrid, SearchGroup, SearchInput, SubmitSearch, AddPokemon } from "./SeachPokemon.styled";
 
 
 const SearchPokemon: React.FC = () => {
@@ -28,10 +28,10 @@ const SearchPokemon: React.FC = () => {
                 <label htmlFor='inpSearchPokemon'>Listado de Pokemon</label>
                 <SearchInput>
                     <SubmitSearch type='submit' />
-                    <AddPokemon name="inpSearchPokemon" type="search" placeholder="Buscar" />
+                    <SearchIcon name="inpSearchPokemon" type="search" placeholder="Buscar" />
                 </SearchInput>
             </SearchGroup>
-            <input type="button" value=" + Nuevo" />
+            <AddPokemon type="button" value=" + Nuevo" />
         </SeachGrid>
     )
 }
