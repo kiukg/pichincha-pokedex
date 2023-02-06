@@ -1,20 +1,22 @@
-import { PokemonCell, PokemonHeader, PokemonRow } from "./PokemonList.styled";
+import { useGlobalContext } from "../../context/context";
+import { PokemonCell, PokemonContainer, PokemonHeader, PokemonRow, PokemonRowCell } from "./PokemonList.styled";
 
-interface IPokemon {
+
+export interface IPokemon {
+    id: number;
     name?: string;
     img?: string;
     attack?: number;
     defense?: number;
 }
-interface IPokemonList {
+export interface IPokemonList {
     pokemonList?: IPokemon[];
-    test?: any;
 }
 
-const PokemonList: React.FC<IPokemonList> = ({ pokemonList,test }) => {
-    
+const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
+
     return (
-        <>
+        <PokemonContainer>
             <PokemonHeader>
                 <PokemonCell>Nombre</PokemonCell>
                 <PokemonCell>Imagen</PokemonCell>
@@ -26,18 +28,18 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList,test }) => {
                 pokemonList?.map(({ attack, defense, img, name }) => {
                     return (
                         <PokemonRow>
-                            <PokemonCell>{name}</PokemonCell>
-                            <PokemonCell>{img}</PokemonCell>
-                            <PokemonCell>{attack}</PokemonCell>
-                            <PokemonCell>{defense}</PokemonCell>
-                            <PokemonCell>
+                            <PokemonRowCell>{name}</PokemonRowCell>
+                            <PokemonRowCell><img src={img}></img></PokemonRowCell>
+                            <PokemonRowCell>{attack}</PokemonRowCell>
+                            <PokemonRowCell>{defense}</PokemonRowCell>
+                            <PokemonRowCell>
                                 <input type="button" value="Edit" /><input type="button" value="Delete" />
-                            </PokemonCell>
+                            </PokemonRowCell>
                         </PokemonRow>
                     )
                 })
             }
-        </>
+        </PokemonContainer>
     )
 }
 

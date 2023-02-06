@@ -5,7 +5,7 @@ export type GlobalContent = {
     searchValue: string,
     setSearchValue:(c: string) => void,
     searchResult: any,
-    setsearchResult:(c: string) => void,
+    setsearchResult:(c: any) => void,
   }
 
 export const GlobalContext = createContext<GlobalContent>({
