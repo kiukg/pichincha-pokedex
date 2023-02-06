@@ -1,14 +1,19 @@
 import { SearchIcon, SeachGrid, SearchGroup, SearchInput, SubmitSearch, AddPokemon } from "./SeachPokemon.styled";
+import { useGlobalContext } from '../../context/context'
 
 
 const SearchPokemon: React.FC = () => {
+    const { searchValue,setSearchValue,searchResult,setsearchResult } = useGlobalContext();
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         let formData = new FormData(event.currentTarget);
         let searchInputValue = formData.get("inpSearchPokemon") as string;
 
-        fetch(`https://pokeapi.co/api/v2/pokemon/${searchInputValue}`, {
+        setSearchValue(searchInputValue);
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${searchValue}`, {
             method: 'get',
             headers: {
                 Accept: 'application/json',
@@ -18,10 +23,10 @@ const SearchPokemon: React.FC = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+                setsearchResult(data);
             });
     }
-
+  
     return (
         <SeachGrid>
             <SearchGroup onSubmit={handleSubmit}>
