@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const PokemonContainer = styled.div`
     margin: 16px;
+    max-height: 50vh;
+    overflow: auto;
+    border: 1px solid #e3e3e3;
 `
 
 export const PokemonRow = styled.div`

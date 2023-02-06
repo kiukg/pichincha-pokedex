@@ -4,7 +4,7 @@ import { IPokemon } from '../PokemonList/PokemonList';
 
 
 const SearchPokemon: React.FC = () => {
-    const { searchValue, setSearchValue, searchResult, setsearchResult } = useGlobalContext();
+    const { setSearchValue, setsearchResult } = useGlobalContext();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

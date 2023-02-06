@@ -3,6 +3,7 @@ import PokemonList from './Components/PokemonList/PokemonList';
 import SearchPokemon from './Components/SearchPokemon/SearchPokemon';
 import { GlobalContext } from "./context/context";
 import './App.css'
+import PokemonActions from './Components/PokemonActions/PokemonActions';
 
 function App() {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -11,25 +12,8 @@ function App() {
     <GlobalContext.Provider value={{ searchValue, setSearchValue, searchResult, setsearchResult }}>
       <div className='App'>
         <SearchPokemon></SearchPokemon>
-
         <PokemonList pokemonList={searchResult}></PokemonList>
-
-        <div>
-          <span>Nuevo Pokemon</span>
-          <div>
-            <span>Nombre</span><input type="text" name="" id="" />
-          </div>
-          <div>
-            <span>Imagen</span><input type="text" name="" id="" />
-          </div>
-
-          <div>
-            <span>Ataque</span><input type="range" name="" id="" min='0' max='255' />
-          </div>
-          <div>
-            <span>Defensa</span><input type="range" name="" id="" min='0' max='255' />
-          </div>
-        </div>
+        <PokemonActions></PokemonActions>
       </div>
     </GlobalContext.Provider>
   );

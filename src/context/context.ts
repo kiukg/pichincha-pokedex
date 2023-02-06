@@ -1,5 +1,4 @@
-import React, {createContext,useContext,useEffect,useState} from "react";
-// import { asyncFetch } from "../utils/helpers";
+import  {createContext,useContext} from "react";
 
 export type GlobalContent = {
     searchValue: string,
