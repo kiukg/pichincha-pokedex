@@ -3,12 +3,44 @@ import { useGlobalContext } from '../../context/context';
 import { IPokemon } from '../PokemonList/PokemonList';
 import CustomButton from "../CustomButton/CustomButton";
 import addIcon from '../../icons/plus.svg';
+import { asyncFetch } from "../../utils/helpers";
+
+export const getPokemon = async (url: string, headers: Headers) => {
+
+    const response = await asyncFetch(url, headers);
+
+    let pokemonList: IPokemon[] = [];
+
+    if (!response?.results) {
+        pokemonList.push({ id: response?.id, name: response?.species.name, attack: response?.stats[1].base_stat, defense: response?.stats[2].base_stat, img: response?.sprites.front_default })
+    }
+    else {
+        await Promise.all(
+            response?.results.map(async (pokemon: any) => {
+                const response = await asyncFetch(pokemon.url, headers);
+                pokemonList.push({ id: response?.id, name: response?.species.name, attack: response?.stats[1].base_stat, defense: response?.stats[2].base_stat, img: response?.sprites.front_default });
+            }))
+    }
+
+    const sorted: { id: number }[] = pokemonList?.sort((a, b) => {
+        if (a.id > b.id) {
+            return 1;
+        }
+
+        if (a.id < b.id) {
+            return -1;
+        }
+
+        return 0;
+    })
+
+    return sorted;
+}
 
 const SearchPokemon: React.FC = () => {
     const { setSearchValue, setSearchResult, setActionType } = useGlobalContext();
 
-    const handleAddAction = (event: any) => {
-        console.log('wtf')
+    const handleAddAction = () => {
         setActionType('add');
     }
 
@@ -20,50 +52,15 @@ const SearchPokemon: React.FC = () => {
 
         setSearchValue(searchInputValue);
 
-        await fetch(`https://pokeapi.co/api/v2/pokemon/${searchInputValue}`, {
-            method: 'get',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
+        const headers: Headers = new Headers({
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        });
+        const url = `https://pokeapi.co/api/v2/pokemon/${searchInputValue}`;
 
-        })
-            .then((response) => response.json())
-            .then(async (data) => {
-                let test: IPokemon[] = [];
-                if (!data.results) {
-                    test.push({ id: data.id, name: data.species.name, attack: data.stats[1].base_stat, defense: data.stats[2].base_stat, img: data.sprites.front_default })
-                }
-                else {
-                    await Promise.all(
-                        data.results.map(async (pokemon: any) => {
-                            await fetch(pokemon.url, {
-                                method: 'get',
-                                headers: {
-                                    Accept: 'application/json',
-                                    'Content-Type': 'application/json',
-                                },
+        const pokemonList = await getPokemon(url, headers);
 
-                            })
-                                .then((response) => response.json())
-                                .then((data) => {
-                                    test.push({ id: data.id, name: data.species.name, attack: data.stats[1].base_stat, defense: data.stats[2].base_stat, img: data.sprites.front_default });
-                                })
-                        }))
-                }
-                const sorted: { id: number }[] = test?.sort((a, b) => {
-                    if (a.id > b.id) {
-                        return 1;
-                    }
-
-                    if (a.id < b.id) {
-                        return -1;
-                    }
-
-                    return 0;
-                })
-                setSearchResult(sorted);
-            });
+        setSearchResult(pokemonList);
     }
 
     return (
