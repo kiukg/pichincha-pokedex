@@ -7,13 +7,15 @@ import PokemonActions from './Components/PokemonActions/PokemonActions';
 
 function App() {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [searchResult, setsearchResult] = useState<any>([]);
+  const [searchResult, setSearchResult] = useState<any>([]);
+  const [selectedPokemon, setSelectedPokemon] = useState<any>([]);
+  const [actionType, setActionType] = useState<'add'|'edit'>('add');
   return (
-    <GlobalContext.Provider value={{ searchValue, setSearchValue, searchResult, setsearchResult }}>
+    <GlobalContext.Provider value={{ searchValue, setSearchValue, searchResult,setSearchResult,selectedPokemon, setSelectedPokemon, actionType, setActionType}}>
       <div className='App'>
         <SearchPokemon></SearchPokemon>
         <PokemonList pokemonList={searchResult}></PokemonList>
-        <PokemonActions></PokemonActions>
+        <PokemonActions actionType={actionType} selectedPokemon={selectedPokemon}></PokemonActions>
       </div>
     </GlobalContext.Provider>
   );

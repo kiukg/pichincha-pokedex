@@ -40,12 +40,3 @@ export const SubmitSearch = styled.input`
 export const SearchGroup = styled.form`
     display: grid;
 `
-
-export const AddPokemon = styled.input`
-    display: grid;
-    padding: 7px 8px;
-    border-radius: 3px;
-    background-color: #6161e9;
-    color: #fff;
-    border: 1px solid transparent;
-`

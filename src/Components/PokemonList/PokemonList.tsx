@@ -1,6 +1,8 @@
-import { PokemonCell, PokemonContainer, PokemonHeader, PokemonRow, PokemonRowCell } from "./PokemonList.styled";
+import { PokemonActionsContainer, PokemonCell, PokemonContainer, PokemonHeader, PokemonRow, PokemonRowCell } from "./PokemonList.styled";
 import editIcon from '../../icons/pencil.svg';
 import deleteIcon from '../../icons/bin.svg';
+import CustomButton from "../CustomButton/CustomButton";
+import { useGlobalContext } from "../../context/context";
 
 export interface IPokemon {
     id: number;
@@ -15,12 +17,17 @@ export interface IPokemonList {
 
 const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
 
+    const { searchResult, setSelectedPokemon, setActionType, setSearchResult } = useGlobalContext();
+
     const handleEdit = (event: any) => {
-        console.log(event.target.id)
+        const idValue = Number(event.target.id);
+        setSelectedPokemon(searchResult.find((pokemon: IPokemon) => pokemon.id === idValue));
+        setActionType('edit');
     }
 
     const handleRemove = (event: any) => {
-        console.log(event.target.id)
+        const idValue = Number(event.target.id);
+        setSearchResult((current: IPokemon[]) => current.filter((pokemon) => pokemon.id !== idValue));
     }
 
     return (
@@ -41,8 +48,10 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
                             <PokemonRowCell>{attack}</PokemonRowCell>
                             <PokemonRowCell>{defense}</PokemonRowCell>
                             <PokemonRowCell>
-                                <img width={20} id={id.toString()} src={editIcon} onClick={handleEdit}></img>
-                                <img width={20} id={id.toString()} src={deleteIcon} onClick={handleRemove}></img>
+                                <PokemonActionsContainer>
+                                    <CustomButton backgroundColor="#fff" color="#6161e9" id={id.toString()} type="button" imgSrc={editIcon} onClick={handleEdit}></CustomButton>
+                                    <CustomButton backgroundColor="#fff" color="#6161e9" id={id.toString()} type="button" imgSrc={deleteIcon} onClick={handleRemove}></CustomButton>
+                                </PokemonActionsContainer>
                             </PokemonRowCell>
                         </PokemonRow>
                     )

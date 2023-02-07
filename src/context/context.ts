@@ -1,17 +1,26 @@
 import  {createContext,useContext} from "react";
+import { IPokemon } from "../Components/PokemonList/PokemonList";
 
 export type GlobalContent = {
     searchValue: string,
     setSearchValue:(c: string) => void,
     searchResult: any,
-    setsearchResult:(c: any) => void,
+    setSearchResult:(c: any) => void,
+    selectedPokemon: IPokemon,
+    setSelectedPokemon:(c: any) => void,
+    actionType: 'edit'|'add',
+    setActionType:(c: any) => void,
   }
 
 export const GlobalContext = createContext<GlobalContent>({
     searchValue: 'test', 
     setSearchValue: () => {},
     searchResult: [],
-    setsearchResult: () => {},
+    setSearchResult: () => {},
+    selectedPokemon: {id:0,name:''},
+    setSelectedPokemon:  () => {},
+    actionType: 'add',
+    setActionType:  () => {},
 })
 
 

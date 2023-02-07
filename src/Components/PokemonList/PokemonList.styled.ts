@@ -33,3 +33,9 @@ export const PokemonRowCell = styled.div`
     padding: 8px;
     height: 96px;
 `
+export const PokemonActionsContainer = styled.div`
+    display: grid;
+    align-items: center;
+    grid-auto-flow: column;
+    justify-content: space-evenly;
+`

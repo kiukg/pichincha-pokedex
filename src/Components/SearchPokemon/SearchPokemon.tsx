@@ -1,10 +1,16 @@
-import { SearchIcon, SeachGrid, SearchGroup, SearchInput, SubmitSearch, AddPokemon, SearchLabel } from "./SeachPokemon.styled";
+import { SearchIcon, SeachGrid, SearchGroup, SearchInput, SubmitSearch, SearchLabel } from "./SeachPokemon.styled";
 import { useGlobalContext } from '../../context/context';
 import { IPokemon } from '../PokemonList/PokemonList';
-
+import CustomButton from "../CustomButton/CustomButton";
+import addIcon from '../../icons/plus.svg';
 
 const SearchPokemon: React.FC = () => {
-    const { setSearchValue, setsearchResult } = useGlobalContext();
+    const { setSearchValue, setSearchResult, setActionType } = useGlobalContext();
+
+    const handleAddAction = (event: any) => {
+        console.log('wtf')
+        setActionType('add');
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -29,8 +35,6 @@ const SearchPokemon: React.FC = () => {
                     test.push({ id: data.id, name: data.species.name, attack: data.stats[1].base_stat, defense: data.stats[2].base_stat, img: data.sprites.front_default })
                 }
                 else {
-
-
                     await Promise.all(
                         data.results.map(async (pokemon: any) => {
                             await fetch(pokemon.url, {
@@ -58,7 +62,7 @@ const SearchPokemon: React.FC = () => {
 
                     return 0;
                 })
-                setsearchResult(sorted);
+                setSearchResult(sorted);
             });
     }
 
@@ -71,7 +75,7 @@ const SearchPokemon: React.FC = () => {
                     <SearchIcon name="inpSearchPokemon" type="search" placeholder="Buscar" />
                 </SearchInput>
             </SearchGroup>
-            <AddPokemon type="button" value=" + Nuevo" />
+            <CustomButton backgroundColor="#6161e9" color="#fff" text="Nuevo" type="button" imgSrc={addIcon} onClick={handleAddAction}></CustomButton>
         </SeachGrid>
     )
 }
