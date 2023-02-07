@@ -21,20 +21,7 @@ export const getPokemon = async (url: string, headers: Headers) => {
                 pokemonList.push({ id: response?.id, name: response?.species.name, attack: response?.stats[1].base_stat, defense: response?.stats[2].base_stat, img: response?.sprites.front_default });
             }))
     }
-
-    const sorted: { id: number }[] = pokemonList?.sort((a, b) => {
-        if (a.id > b.id) {
-            return 1;
-        }
-
-        if (a.id < b.id) {
-            return -1;
-        }
-
-        return 0;
-    })
-
-    return sorted;
+    return pokemonList;
 }
 
 const SearchPokemon: React.FC = () => {
@@ -60,7 +47,19 @@ const SearchPokemon: React.FC = () => {
 
         const pokemonList = await getPokemon(url, headers);
 
-        setSearchResult(pokemonList);
+        const sorted: { id: number }[] = pokemonList?.sort((a, b) => {
+            if (a.id > b.id) {
+                return 1;
+            }
+
+            if (a.id < b.id) {
+                return -1;
+            }
+
+            return 0;
+        })
+
+        setSearchResult(sorted);
     }
 
     return (
@@ -68,7 +67,7 @@ const SearchPokemon: React.FC = () => {
             <SearchGroup onSubmit={handleSubmit}>
                 <SearchLabel htmlFor='inpSearchPokemon'>Listado de Pokemon</SearchLabel>
                 <SearchInput>
-                    <SubmitSearch type='submit' />
+                    <SubmitSearch data-testid='btnSearch' name='btnSearch' type='submit' />
                     <SearchIcon name="inpSearchPokemon" type="search" placeholder="Buscar" />
                 </SearchInput>
             </SearchGroup>

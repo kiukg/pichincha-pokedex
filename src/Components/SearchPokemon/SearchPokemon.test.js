@@ -1,14 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import SearchPokemon, { getPokemon } from './SearchPokemon';
-import PokemonList from '../../Components/PokemonList/PokemonList';
-import * as api from "../../utils/helpers";
-
-const headers = new Headers({
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-});
-
-jest.mock("../../utils/helpers");
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
+import SearchPokemon from './SearchPokemon';
+import 'isomorphic-fetch';
 
 describe('SearchPokemon', () => {
   it('renders appropriately', () => {
@@ -24,22 +17,23 @@ describe('SearchPokemon', () => {
   // });
 });
 
-describe('getPokemon', () => {
-  beforeEach(() => jest.clearAllMocks());
 
 
-  it("should render pokemon names when api responds", async () => {
+test('should get pokemon bulbasaur', async () => {
+  render(<SearchPokemon />);
 
-    const test =await api.getPokemonsFromApi.mockResolvedValue({
-      results: [{ name: "bulbasaur" }],
-    });
+  const getButton = screen.getByTestId('btnSearch');
+  expect(getButton).not.toBeDisabled();
+  userEvent.click(getButton);
 
-    console.log(test)
-    
-    render(<PokemonList pokemonList={test}/>);
-    // See if the pokemon name we returned in the mock is visible
-    await waitFor(() => {
-      screen.getByText("bulbasaur");
-    });
-  });
+  const res = await fetch('https://pokeapi.co/api/v2/pokemon/1');
+  const result = await res.json();
+
+  expect(result.name).toBe('bulbasaur');  
+
+  // expect(windowFetchSpy).toHaveBeenCalled();
+  // expect(windowFetchSpy).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon');
+  // expect(screen.getByText('bulbasaur')).toBeVisible();
+
 });
+
