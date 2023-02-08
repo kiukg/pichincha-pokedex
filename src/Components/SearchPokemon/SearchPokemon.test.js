@@ -9,7 +9,7 @@ describe('SearchPokemon', () => {
     expect(screen.getByText(/Listado de Pokemon/i)).toBeInTheDocument()
   })
 
-  // it("should return the initial values for data, error and loading", async () => {
+  // it("should log hooks", async () => {
   //   const { result } = renderHook(() => SearchPokemon());
   //   const { setSearchValue, setSearchResult, setActionType } = result.current;
 

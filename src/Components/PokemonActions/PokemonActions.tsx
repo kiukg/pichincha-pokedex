@@ -41,33 +41,36 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
         }
     }, [selectedPokemon, actionType, visible]);
 
-    const handleAttkRange = (event: any) => {
-        setAttkRange(event.target.value)
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+        switch (event.target.name) {
+            case 'pokemonName':
+                setPokemonName(event.target.value);
+                break;
+            case 'pokemonAttk':
+                setAttkRange(Number(event.target.value));
+                break;
+            case 'pokemonDef':
+                setDefRange(Number(event.target.value));
+                break;
+            case 'pokemonHP':
+                setHPRange(Number(event.target.value));
+                break;
+            case 'pokemonImg':
+                setPokemonImg(event.target.value);
+                break;
+            case 'pokemonType':
+                setPokemonType(event.target.value);
+                break;
+            default:
+                console.log(`Invalid`);
+        }
     }
 
-    const handleDefRange = (event: any) => {
-        setDefRange(event.target.value)
-    }
-
-    const handleHPRange = (event: any) => {
-        setHPRange(event.target.value)
-    }
-
-    const handleNameChange = (event: any) => {
-        setPokemonName(event.target.value)
-    }
-    const handleImgChange = (event: any) => {
-        setPokemonImg(event.target.value)
-    }
-    const handleTypeChange = (event: any) => {
-        setPokemonType(event.target.value)
-    }
-
-    const handleCancel = ()=> {
+    const handleCancel = () => {
         setActionVisible(false);
     }
-    
-    const handleAddPokemon = async (event: any) => {
+
+    const handleAddPokemon = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         let formData = new FormData(event.currentTarget);
         let pokemonName = formData.get("pokemonName") as string;
@@ -103,10 +106,10 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
             const { responseJson: response, statusCode } = await asyncFetch(requestOptions);
 
             if (statusCode === 201) {
+                //Para no volver a consumir la api de listar actualizo el cambio (Agregar Pokemon) hecho en el estado global
                 setSearchResult((current: IPokemon[]) => [...current, { id: response.id, name: response.name, attack: response.attack, defense: response.defense, hp: response.hp, type: response.type, image: response.image }]);
                 setActionVisible(false);
             }
-
         }
         else {
             const requestOptions = {
@@ -118,6 +121,7 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
             const { responseJson: response, statusCode } = await asyncFetch(requestOptions, '/' + selectedPokemon?.id.toString());
 
             if (statusCode === 200) {
+                //Para no volver a consumir la api de listar actualizo el cambio (Modificar Pokemon) hecho en el estado global
                 const currentPokemonList = [...searchResult];
                 let foundPokemonIndex = currentPokemonList.findIndex((pokemon: IPokemon) => pokemon.id === selectedPokemon?.id);
                 currentPokemonList[foundPokemonIndex] = { id: selectedPokemon?.id, name: response.name, attack: response.attack, defense: response.defense, hp: response.hp, type: response.type, image: response.image };
@@ -136,31 +140,31 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
                         Nombre:
                         <input type="text" name="pokemonName" title="Nombre" placeholder="Nombre"
                             value={pokemonName}
-                            onChange={handleNameChange} />
+                            onChange={handleChange} />
                     </PokemonFieldContainer>
 
                     <PokemonFieldContainer htmlFor="pokemonAttk">
                         Ataque: 0
-                        <input type="range" name="pokemonAttk" min='0' max='255' onInput={handleAttkRange} value={attkRange}
+                        <input type="range" name="pokemonAttk" min='0' max='255' onChange={handleChange} value={attkRange}
                         />{attkRange}
                     </PokemonFieldContainer>
-
 
                     <PokemonFieldContainer htmlFor="pokemonImg">
                         Imagen:
                         <input type="text" name="pokemonImg" title="Imagen" placeholder="URL"
                             value={pokemonImg}
-                            onChange={handleImgChange} />
+                            onChange={handleChange} />
                     </PokemonFieldContainer>
 
                     <PokemonFieldContainer htmlFor="pokemonDef">
-                        Defensa: 0<input type="range" name="pokemonDef" min='0' max='255' onInput={handleDefRange} value={defRange}
+                        Defensa: 0<input type="range" name="pokemonDef" min='0' max='255' onChange={handleChange} value={defRange}
                         />{defRange}
                     </PokemonFieldContainer>
 
                     <PokemonFieldContainer htmlFor="pokemonType">
                         Tipo:
-                        <select name="pokemonType" value={pokemonType} onChange={handleTypeChange}>
+                        <select name="pokemonType" value={pokemonType} onChange={handleChange} defaultValue={0}>
+                            <option value="0">Selecciona el tipo</option>
                             <option value="Agua">Agua</option>
                             <option value="Acero">Acero</option>
                             <option value="Bicho">Bicho</option>
@@ -184,7 +188,7 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
                     </PokemonFieldContainer>
 
                     <PokemonFieldContainer htmlFor="pokemonHP">
-                        HP: 0<input type="range" name="pokemonHP" min='0' max='255' onInput={handleHPRange} value={HPRange}
+                        HP: 0<input type="range" name="pokemonHP" min='0' max='255' onChange={handleChange} value={HPRange}
                         />{HPRange}
                     </PokemonFieldContainer>
 

@@ -6,7 +6,6 @@ import addIcon from '../../icons/plus.svg';
 import { asyncFetch } from "../../utils/helpers";
 
 export const getPokemon = async (url: string, headers: Headers) => {
-
     const response = await (await asyncFetch(headers, url)).responseJson;
 
     let pokemonList: IPokemon[] = [];
@@ -19,7 +18,6 @@ export const getPokemon = async (url: string, headers: Headers) => {
     else {
         pokemonList.push({ id: response?.id, name: response?.name, attack: response?.attack, defense: response?.defense, image: response?.image, hp: response?.hp, type: response?.type })
     }
-
     return pokemonList;
 }
 
@@ -32,7 +30,6 @@ const SearchPokemon: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         let formData = new FormData(event.currentTarget);
         let searchInputValue = formData.get("inpSearchPokemon") as string;
 
@@ -46,18 +43,15 @@ const SearchPokemon: React.FC = () => {
 
         const pokemonList = await getPokemon(url, headers);
 
-        const sorted: { id: number }[] = pokemonList?.sort((a, b) => {
-            if (a.id > b.id) {
+        const sorted: { id: number }[] = pokemonList?.sort((currentPkm, prevPkm) => {
+            if (currentPkm.id > prevPkm.id) {
                 return 1;
             }
-
-            if (a.id < b.id) {
+            if (currentPkm.id < prevPkm.id) {
                 return -1;
             }
-
             return 0;
         })
-
         setSearchResult(sorted);
     }
 

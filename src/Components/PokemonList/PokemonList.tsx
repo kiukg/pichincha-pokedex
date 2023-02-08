@@ -30,7 +30,6 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
     }
 
     const handleRemove = async (event: any) => {
-
         const headers = new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -44,9 +43,9 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
         const { statusCode } = await asyncFetch(requestOptions, '/' + event.target.id.toString());
 
         if (statusCode === 200) {
+            //Para no volver a consumir la api de listar actualizo el cambio (Eliminar Pokemon) hecho en el estado global
             const idValue = Number(event.target.id);
             setSearchResult((current: IPokemon[]) => current.filter((pokemon) => pokemon.id !== idValue));
-           
         }
     }
 

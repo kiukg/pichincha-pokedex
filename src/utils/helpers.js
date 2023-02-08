@@ -15,8 +15,5 @@ export const asyncFetch = async (requestOptions, url = '') => {
     }
 
     return { responseJson, statusCode };
-
-    // const response = await (await (fetch(baseUrl + url, requestOptions))).json();
-    // return response;
 }
 
