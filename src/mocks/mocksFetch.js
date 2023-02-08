@@ -8,7 +8,6 @@ const response = {
 }
 
 export default async function mockFetch(url) {
-    console.log(url)
     return {
         ok: true,
         status: 200,

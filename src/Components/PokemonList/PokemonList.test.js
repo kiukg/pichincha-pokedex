@@ -4,7 +4,7 @@ import PokemonList from './PokemonList';
 
 describe('SearchPokemon', () => {
     it('renders appropriately', () => {
-        render(<PokemonList pokemonList={[{ id: 1, name: 'bulbasaur', img: '', attack: 10, defense: 10 }]} />)
+        render(<PokemonList pokemonList={[{ id: 1, name: 'bulbasaur', image: '', attack: 10, defense: 10 }]} />)
         expect(screen.getByText('bulbasaur')).toBeVisible();
     })
 

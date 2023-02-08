@@ -21,10 +21,14 @@ display: grid;
 justify-items: center;
 align-items: center;
 grid-template-columns: 100px 1fr 30px;
-input[type=text] {
+width: 100%;
+input[type=text], select {
     padding: 7px 8px;
     border:1px solid #e3e3e3;
     border-radius: 3px;
+    width: 100%;
+    grid-column: 2/-1;
+    box-sizing: border-box;
 }
 
 input[type=range] {
@@ -34,6 +38,7 @@ input[type=range] {
     border-radius: 8px;
     height: 4px;
     accent-color: #6161e9;
+    width: 100%;
 }
 `
 

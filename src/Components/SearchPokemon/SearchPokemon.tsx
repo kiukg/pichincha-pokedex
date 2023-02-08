@@ -7,28 +7,27 @@ import { asyncFetch } from "../../utils/helpers";
 
 export const getPokemon = async (url: string, headers: Headers) => {
 
-    const response = await asyncFetch(url, headers);
+    const response = await (await asyncFetch(headers, url)).responseJson;
 
     let pokemonList: IPokemon[] = [];
 
-    if (!response?.results) {
-        pokemonList.push({ id: response?.id, name: response?.species.name, attack: response?.stats[1].base_stat, defense: response?.stats[2].base_stat, img: response?.sprites.front_default })
+    if (response.length > 0) {
+        response.map((pokemon: IPokemon) => {
+            pokemonList.push({ id: pokemon?.id, name: pokemon?.name, attack: pokemon?.attack, defense: pokemon?.defense, image: pokemon?.image, hp: pokemon?.hp, type: pokemon?.type })
+        })
     }
     else {
-        await Promise.all(
-            response?.results.map(async (pokemon: any) => {
-                const response = await asyncFetch(pokemon.url, headers);
-                pokemonList.push({ id: response?.id, name: response?.species.name, attack: response?.stats[1].base_stat, defense: response?.stats[2].base_stat, img: response?.sprites.front_default });
-            }))
+        pokemonList.push({ id: response?.id, name: response?.name, attack: response?.attack, defense: response?.defense, image: response?.image, hp: response?.hp, type: response?.type })
     }
+
     return pokemonList;
 }
 
 const SearchPokemon: React.FC = () => {
-    const { setSearchValue, setSearchResult, setActionType } = useGlobalContext();
-
+    const { setSearchValue, setSearchResult, setActionType, setActionVisible } = useGlobalContext();
     const handleAddAction = () => {
         setActionType('add');
+        setActionVisible(true);
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +42,7 @@ const SearchPokemon: React.FC = () => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         });
-        const url = `https://pokeapi.co/api/v2/pokemon/${searchInputValue}`;
+        const url = searchInputValue !== '' ? `/${searchInputValue}` : `/?idAuthor=1`;
 
         const pokemonList = await getPokemon(url, headers);
 

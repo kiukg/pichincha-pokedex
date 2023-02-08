@@ -9,13 +9,15 @@ function App() {
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchResult, setSearchResult] = useState<any>([]);
   const [selectedPokemon, setSelectedPokemon] = useState<any>([]);
-  const [actionType, setActionType] = useState<'add'|'edit'>('add');
+  const [actionType, setActionType] = useState<'add' | 'edit'>('add');
+  const [actionVisible, setActionVisible] = useState<boolean>(false);
+
   return (
-    <GlobalContext.Provider value={{ searchValue, setSearchValue, searchResult,setSearchResult,selectedPokemon, setSelectedPokemon, actionType, setActionType}}>
+    <GlobalContext.Provider value={{ searchValue, setSearchValue, searchResult, setSearchResult, selectedPokemon, setSelectedPokemon, actionType, setActionType, actionVisible, setActionVisible }}>
       <div className='App'>
         <SearchPokemon></SearchPokemon>
         <PokemonList pokemonList={searchResult}></PokemonList>
-        <PokemonActions actionType={actionType} selectedPokemon={selectedPokemon}></PokemonActions>
+        <PokemonActions actionType={actionType} selectedPokemon={selectedPokemon} visible={actionVisible}></PokemonActions>
       </div>
     </GlobalContext.Provider>
   );
