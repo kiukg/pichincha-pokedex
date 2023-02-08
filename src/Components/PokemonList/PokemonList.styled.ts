@@ -12,6 +12,7 @@ export const PokemonRow = styled.div`
     grid-template-columns: repeat(5, 1fr);
     align-items: end;
     justify-content: center;
+    min-width: 580px;
 `
 
 export const PokemonHeader = styled.div`
@@ -19,6 +20,7 @@ export const PokemonHeader = styled.div`
     grid-template-columns: repeat(5, 1fr);
     align-items: end;
     justify-content: center;
+    min-width: 580px;
 `
 
 export const PokemonCell = styled.div`

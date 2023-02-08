@@ -15,6 +15,11 @@ display: grid;
 justify-items: center;
 grid-template-columns: 1fr 1fr;
 grid-gap: 16px;
+
+@media only screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+}
+
 `
 export const PokemonFieldContainer = styled.label`
 display: grid;
