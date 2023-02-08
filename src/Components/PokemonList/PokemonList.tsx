@@ -42,8 +42,6 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
 
         const { statusCode } = await asyncFetch(requestOptions, '/' + event.target.id.toString());
 
-        console.log(statusCode)
-
         if (statusCode === 200) {
             //Para no volver a consumir la api de listar actualizo el cambio (Eliminar Pokemon) hecho en el estado global
             const idValue = Number(event.target.id);
