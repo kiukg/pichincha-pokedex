@@ -12,7 +12,8 @@ export const getPokemon = async (url: string, headers: Headers) => {
 
     if (response.length > 0) {
         response.map((pokemon: IPokemon) => {
-            pokemonList.push({ id: pokemon?.id, name: pokemon?.name, attack: pokemon?.attack, defense: pokemon?.defense, image: pokemon?.image, hp: pokemon?.hp, type: pokemon?.type })
+            pokemonList.push({ id: pokemon?.id, name: pokemon?.name, attack: pokemon?.attack, defense: pokemon?.defense, image: pokemon?.image, hp: pokemon?.hp, type: pokemon?.type });
+            return pokemon;
         })
     }
     else {
