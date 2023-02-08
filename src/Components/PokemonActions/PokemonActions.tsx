@@ -20,7 +20,7 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
     const [pokemonName, setPokemonName] = useState<string | undefined>('');
     const [pokemonImg, setPokemonImg] = useState<string | undefined>('');
     const [pokemonType, setPokemonType] = useState<string | undefined>('');
-    const { searchResult, setSearchResult, setActionVisible } = useGlobalContext();
+    const { searchResult, setSearchResult, setActionVisible ,setAlertMsg, setAlertVisible} = useGlobalContext();
 
     useEffect(() => {
         if (actionType === 'add') {
@@ -109,6 +109,16 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
                 //Para no volver a consumir la api de listar actualizo el cambio (Agregar Pokemon) hecho en el estado global
                 setSearchResult((current: IPokemon[]) => [...current, { id: response.id, name: response.name, attack: response.attack, defense: response.defense, hp: response.hp, type: response.type, image: response.image }]);
                 setActionVisible(false);
+                setAlertMsg(['Pokemon creado correctamente', 'ok']);
+                setAlertVisible(true);
+            }
+            else if (statusCode === 402) {
+                setAlertMsg(['Faltan datos para crear el Pokemon', 'warning']);
+                setAlertVisible(true);
+            }
+            else {
+                setAlertMsg(['Error en la API', 'danger']);
+                setAlertVisible(true);
             }
         }
         else {
@@ -127,6 +137,16 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
                 currentPokemonList[foundPokemonIndex] = { id: selectedPokemon?.id, name: response.name, attack: response.attack, defense: response.defense, hp: response.hp, type: response.type, image: response.image };
                 setSearchResult(currentPokemonList);
                 setActionVisible(false);
+                setAlertMsg(['Pokemon modificado correctamente', 'ok']);
+                setAlertVisible(true);
+            }
+            else if (statusCode === 404) {
+                setAlertMsg(['Pokemon no encontrado, no se puede modificar', 'warning']);
+                setAlertVisible(true);
+            }
+            else {
+                setAlertMsg(['Error en la API', 'danger']);
+                setAlertVisible(true);
             }
         }
     }
@@ -202,4 +222,3 @@ const PokemonActions: React.FC<IAction> = ({ selectedPokemon, actionType, visibl
 }
 
 export default PokemonActions;
-

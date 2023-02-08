@@ -20,7 +20,7 @@ const CustomButton: React.FC<IButton> = ({ id, imgSrc, backgroundColor, text, co
                 <div data-testid={id} className="img" id={id?.toString()} onClick={onClick} style={{ paddingLeft: '8px', width: '16px', height: '16px', backgroundColor: color, WebkitMask: `url(${window.location.origin + imgSrc}) no-repeat center / contain` }} />
                 <input type={type} value={text} style={{ color }} ></input>
             </CustomButtonContainer>) :
-            (<CustomButtonContainerNoText style={{ backgroundColor: backgroundColor }} onClick={onClick} >
+            (<CustomButtonContainerNoText style={{ backgroundColor: backgroundColor }}>
                 <div className="img" data-testid={id} id={id?.toString()} onClick={onClick} style={{ width: '20px', height: '20px', backgroundColor: color, WebkitMask: `url(${window.location.origin + imgSrc}) no-repeat center / contain` }} />
                 {text && <input type={type} value={text} style={{ color }} ></input>}
             </CustomButtonContainerNoText>)

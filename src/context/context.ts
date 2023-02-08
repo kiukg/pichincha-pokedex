@@ -12,6 +12,10 @@ export type GlobalContent = {
   setActionType: (c: any) => void,
   actionVisible: boolean,
   setActionVisible: (c: any) => void,
+  alertMsg: [string, 'warning' | 'ok' | 'danger'],
+  setAlertMsg: (c: any) => void,
+  isAlertVisible: boolean,
+  setAlertVisible: (c: any) => void,
 }
 
 export const GlobalContext = createContext<GlobalContent>({
@@ -25,6 +29,10 @@ export const GlobalContext = createContext<GlobalContent>({
   setActionType: () => { },
   actionVisible: false,
   setActionVisible: () => { },
+  alertMsg: ['', 'ok'],
+  setAlertMsg: () => { },
+  isAlertVisible: false,
+  setAlertVisible: () => { },
 })
 
 export const useGlobalContext = () => useContext(GlobalContext)

@@ -6,6 +6,7 @@ export const asyncFetch = async (requestOptions, url = '') => {
     const response = await fetch(baseUrl + url, requestOptions);
 
     statusCode = response.status;
+    console.log(statusCode)
     let responseJson;
     if (requestOptions.method === "DELETE") {
         responseJson = '';

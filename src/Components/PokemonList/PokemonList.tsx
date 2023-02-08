@@ -20,7 +20,7 @@ export interface IPokemonList {
 
 const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
 
-    const { searchResult, setSelectedPokemon, setActionType, setSearchResult, setActionVisible } = useGlobalContext();
+    const { searchResult, setSelectedPokemon, setActionType, setSearchResult, setActionVisible, setAlertMsg, setAlertVisible } = useGlobalContext();
 
     const handleEdit = (event: any) => {
         const idValue = Number(event.target.id);
@@ -42,11 +42,24 @@ const PokemonList: React.FC<IPokemonList> = ({ pokemonList }) => {
 
         const { statusCode } = await asyncFetch(requestOptions, '/' + event.target.id.toString());
 
+        console.log(statusCode)
+
         if (statusCode === 200) {
             //Para no volver a consumir la api de listar actualizo el cambio (Eliminar Pokemon) hecho en el estado global
             const idValue = Number(event.target.id);
             setSearchResult((current: IPokemon[]) => current.filter((pokemon) => pokemon.id !== idValue));
+            setAlertMsg(['Pokemon eliminado con exito','ok']);
+            setAlertVisible(true);
         }
+        else if (statusCode === 404) {
+            setAlertMsg(['Pokemon no encontrado, no se puede eliminar','warning']);
+            setAlertVisible(true);
+        }
+        else {
+            setAlertMsg(['Error en la API','danger']);
+            setAlertVisible(true);
+        }
+
     }
 
     return (
